@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "TB_UserPreferences")
 public class UserPreferences {
     @Id
