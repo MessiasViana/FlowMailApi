@@ -1,6 +1,7 @@
 package com.example.FlowMailApi.service;
 
 import com.example.FlowMailApi.entity.Email;
+import com.example.FlowMailApi.exception.SpamException;
 import com.example.FlowMailApi.repository.EmailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -16,6 +17,9 @@ public class EmailService {
 
     @Autowired
     private EmailRepository repo;
+    
+    @Autowired
+    private SpamControlService spamControlService;
 
     public Collection<Email> findAll(Example<Email> example) {
         return repo.findAll(example);
@@ -25,7 +29,10 @@ public class EmailService {
     	return repo.findById(id);
     }
 
-    public Email save(Email e) {
-        return repo.save(e);
+    public Email save(Email email) {
+        if (spamControlService.isSpam(email.getId())) {
+            throw new SpamException("O usuário excedeu o limite de envio de e-mails.");
+        }
+        return repo.save(email);
     }
 }
