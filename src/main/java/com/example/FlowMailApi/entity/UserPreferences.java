@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Builder
 @Table(name = "TB_UserPreferences")
 public class UserPreferences {
     @Id
